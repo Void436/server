@@ -6,7 +6,7 @@ module.exports.authMiddleware = async(req,res,next)=>{
         if (!token) res.status(401).json.authMiddleware({msg: "You're not authorized!"})
         else {
             const  verifyToken = jwt.verify(token, process.env.JWT_SECRET)
-            req.personId = verifyToken.id
+            req.userId = verifyToken.id
             next()
         }
     }

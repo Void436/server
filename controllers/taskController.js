@@ -4,8 +4,8 @@ const Task = require("../models/taskSchema")
 const addTask = async(req,res)=>{
     try{
         const {title,desc} = req.body
-        const personId = req.body.personId
-        const newTask = await Task.create({title,desc,owner:personId})
+        const userId = req.body.userId
+        const newTask = await Task.create({title,desc,owner:userId})
         res.status(201).json({msg:"Task created!" , Task: newTask})
     }
     catch (error) {
@@ -15,7 +15,7 @@ const addTask = async(req,res)=>{
 
 const getTasks = async(req,res)=>{
     try{
-        const tasks = await Task.find({owner: req.body.personId})
+        const tasks = await Task.find({owner: req.body.userId})
         res.status(201).json({msg:"Got all tasks!" , tasks: tasks})
     }
     catch (error) {
