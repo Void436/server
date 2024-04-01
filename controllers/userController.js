@@ -11,7 +11,7 @@ const register = async(req,res)=>{
         else {
             const hashpwd = await bcrypt.hash(password,10)
             const createUser = await User.create({email,name,password:hashpwd})
-            const token = jwt.sign({id:createUser._id}, process.env.JWT_SECRET, {expiresIn:"30d"})
+            const token = await jwt.sign({id:createUser._id}, process.env.JWT_SECRET, {expiresIn:"30d"})
             res.status(201).json({msg:"User has been created successfully!" , token: token, user: createUser})
         }
     }
@@ -28,7 +28,7 @@ const login = async(req,res)=>{
         else {
             const checkPw = await bcrypt.compare(password , existUser.password)
             if (!checkPw) res.status(400).json({msg:"Password does not match, please try again..."})
-            const token = jwt.sign({id: existUser._id} , process.env.JWT_SECRET , {expiresIn:"30d"})
+            const token = await jwt.sign({id: existUser._id} , process.env.JWT_SECRET , {expiresIn:"30d"})
             res.status(201).json({msg:"Logged in successfully!" , token: token, user: existUser})
         }
     }
